@@ -1,0 +1,3 @@
+export PATH="/usr/local/apache-maven/bin:/usr/local/cassandra/bin:/usr/local/hadoop/bin:$PATH"
+export HADOOP_HOME=/usr/local/hadoop
+

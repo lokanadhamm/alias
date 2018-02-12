@@ -1,0 +1,54 @@
+alias k='kubectl'
+alias kg='kubectl get pods'
+kgp(){
+if (($# > 0))
+then
+ k get pods | grep $@ | nl
+else
+ k get pods | nl -v 0
+fi
+}
+alias kc='k config'
+kcc(){
+	if (($# > 0))
+	then
+		if [[ $1 =~ ^-?[0-9]+$ ]]
+		then
+			res=`kc get-contexts | nl -v 0 | awk "NR==$1" | awk '{print $2}'`
+			kc use-context $res
+		else
+			kc use-context $1
+		fi
+	else
+		kc get-contexts | nl -v 0
+	fi
+}
+kgd(){
+if (($# > 0))
+then
+ k get deployments | grep $@ | nl
+else
+ k get deployments | nl -v 0
+fi
+}
+
+ke(){
+if [[ $2 =~ ^-?[0-9]+$ ]]
+then
+	res=`kgp $1 |awk "NR==$2"|awk '{print $2}'`
+	if (($3))
+        then
+                 k exec -it $res
+        else
+                k exec -it $res bash
+        fi
+else
+	res=`kgp $1 |head -1|awk '{print $2}'`
+	if (($2))
+	then
+		 k exec -it $res
+	else
+ 		k exec -it $res bash
+	fi
+fi
+}
